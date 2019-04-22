@@ -15,7 +15,8 @@ My gui version of imageai
  pip3 install pillow;
  pip3 install matplotlib; 
  pip3 install h5py;
- pip3 install keras
+ pip3 install keras;
+ pip3 install https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.2/imageai-2.0.2-py3-none-any.whl
 
 2 - Download YOLO5: https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo.h5
 
