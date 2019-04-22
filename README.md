@@ -2,7 +2,20 @@
 My gui version of imageai
 
 # For use it you need to:
-1 - Visit https://imageai.readthedocs.io/
+1 - Install dependencies:
+
+ Python 3.5.1 or higher.
+
+ Pip3
+
+ pip3 install --upgrade tensorflow;
+ pip3 install numpy;
+ pip3 install scipy;
+ pip3 install opencv-python;
+ pip3 install pillow;
+ pip3 install matplotlib; 
+ pip3 install h5py;
+ pip3 install keras
 
 2 - Download YOLO5: https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo.h5
 
