@@ -1,8 +1,31 @@
-from imageai.Detection import VideoObjectDetection
-from imageai.Detection import ObjectDetection
-from tkinter import *
-from tkinter import filedialog as fd
-import os
+import pip
+try:
+	from imageai.Detection import VideoObjectDetection
+	from imageai.Detection import ObjectDetection
+	from tkinter import filedialog as fd
+	from tkinter import *
+	import os
+except ModuleNotFoundError:
+		def install(package):
+		    if hasattr(pip, 'main'):
+		        pip.main(['install', package])
+		    else:
+		        pip._internal.main(['install', package])
+		install('tensorflow')
+		install('https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.2/imageai-2.0.2-py3-none-any.whl')
+		install('keras')
+		install('h5py')
+		install('matplotlib')
+		install('pillow')
+		install('opencv-python')
+		install('numpy')
+		install('scipy')
+		from imageai.Detection import VideoObjectDetection
+		from imageai.Detection import ObjectDetection
+		from tkinter import *
+		from tkinter import filedialog as fd
+		import os
+
 
 # Main variables
 exec_path = os.getcwd()
@@ -26,7 +49,10 @@ def start():
 		print("Starting to render video")
 		detector = VideoObjectDetection()
 		detector.setModelTypeAsYOLOv3()
-		detector.setModelPath(os.path.join(exec_path, "yolo.h5"))
+		try:
+			detector.setModelPath(os.path.join(exec_path, "yolo.h5"))
+		except:
+			git
 		detector.loadModel()
 		list = detector.detectObjectsFromVideo(
 			input_file_path=os.path.join(exec_path, ifp),
