@@ -4,6 +4,7 @@ try:
 	from imageai.Detection import ObjectDetection
 	from tkinter import filedialog as fd
 	from tkinter import *
+	import wget
 	import os
 except ModuleNotFoundError:
 		def install(package):
@@ -20,6 +21,7 @@ except ModuleNotFoundError:
 		install('opencv-python')
 		install('numpy')
 		install('scipy')
+		install('wget')
 		from imageai.Detection import VideoObjectDetection
 		from imageai.Detection import ObjectDetection
 		from tkinter import *
@@ -46,35 +48,46 @@ def start():
 	ifp = entry_file_path.get()
 	ofp = entry_file_path1.get()
 	if vf == True:
-		print("Starting to render video")
-		detector = VideoObjectDetection()
-		detector.setModelTypeAsYOLOv3()
 		try:
+			print("Starting to render video")
+			detector = VideoObjectDetection()
+			detector.setModelTypeAsYOLOv3()
 			detector.setModelPath(os.path.join(exec_path, "yolo.h5"))
+			detector.loadModel()
 		except:
-			git
-		detector.loadModel()
-		list = detector.detectObjectsFromVideo(
-			input_file_path=os.path.join(exec_path, ifp),
-			output_file_path=os.path.join(exec_path, ofp),
-			frames_per_second=20
-		)
+			wget.download("https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo.h5")
+			print("Starting to render video")
+			detector = VideoObjectDetection()
+			detector.setModelTypeAsYOLOv3()
+			detector.setModelPath(os.path.join(exec_path, "yolo.h5"))
+			detector.loadModel()
+			list = detector.detectObjectsFromVideo(
+				input_file_path=os.path.join(exec_path, ifp),
+				output_file_path=os.path.join(exec_path, ofp),
+				frames_per_second=20
+			)
 		label = Label(root, text="Succeful!", fg="green")
 		label.pack()
 	elif vf == False: 
-		print("Starting to render photo")
-		detector = ObjectDetection()
-		detector.setModelTypeAsRetinaNet()
-		detector.setModelPath(os.path.join(
-			exec_path, "resnet50_coco_best_v2.0.1.h5")
-		)
-		detector.loadModel()
-		list = detector.detectObjectsFromImage(
-			input_image=os.path.join(exec_path, ifp),
-			output_image_path=os.path.join(exec_path, ofp),
-			display_percentage_probability=True,
-			display_object_name=True
-		)
+		try:
+			print("Starting to render photo")
+			detector = ObjectDetection()
+			detector.setModelTypeAsRetinaNet()
+			detector.setModelPath(os.path.join(exec_path, "resnet50_coco_best_v2.0.1.h5"))
+			detector.loadModel()
+		except OSError:
+			wget.download("https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5")
+			print("Starting to render photo")
+			detector = ObjectDetection()
+			detector.setModelTypeAsRetinaNet()
+			detector.setModelPath(os.path.join(exec_path, "resnet50_coco_best_v2.0.1.h5"))
+			detector.loadModel()
+			list = detector.detectObjectsFromImage(
+				input_image=os.path.join(exec_path, ifp),
+				output_image_path=os.path.join(exec_path, ofp),
+				display_percentage_probability=True,
+				display_object_name=True
+			)
 		label = Label(root, text="Succeful!", fg="green")
 		label.pack()
 
