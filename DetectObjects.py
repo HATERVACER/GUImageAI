@@ -27,6 +27,7 @@ except ModuleNotFoundError:
 		from tkinter import *
 		from tkinter import filedialog as fd
 		import os
+		import wget
 
 
 # Main variables
