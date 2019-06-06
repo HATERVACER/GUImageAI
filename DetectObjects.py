@@ -6,6 +6,9 @@ try:
 	from tkinter import *
 	import wget
 	import os
+	import face_recognition
+	from PIL import Image, ImageDraw
+
 except ModuleNotFoundError:
 		def install(package):
 		    if hasattr(pip, 'main'):
@@ -22,33 +25,54 @@ except ModuleNotFoundError:
 		install('numpy')
 		install('scipy')
 		install('wget')
+		install('face_recognition')
 		from imageai.Detection import VideoObjectDetection
 		from imageai.Detection import ObjectDetection
 		from tkinter import *
 		from tkinter import filedialog as fd
 		import os
 		import wget
+		import face_recognition
 
 
 # Main variables
 exec_path = os.getcwd()
 root = Tk()
+k = True
+s = True 	
 
 def vftrue():
 	global vf
-	vf = True
+	vf = 0
 	print(vf)
 
 def vffalse():
 	global vf
-	vf = False
+	vf = 1
 	print(vf)
+
+def vfwtf():
+	global vf
+	vf = 2
+	print(vf)
+
+def clear_search(*iloveminecraft):
+	global k
+	if k:
+		entry_file_path.delete(0, END)
+	k = False
+
+def clear_search1(*iloveminecraftvol2):
+	global s
+	if s:
+		entry_file_path1.delete(0, END)
+	s = False
 
 def start():
 	global vf
 	ifp = entry_file_path.get()
 	ofp = entry_file_path1.get()
-	if vf == True:
+	if vf == 0:
 		try:
 			print("Starting to render video")
 			detector = VideoObjectDetection()
@@ -69,7 +93,7 @@ def start():
 			)
 		label = Label(root, text="Succeful!", fg="green")
 		label.pack()
-	elif vf == False: 
+	elif vf == 1: 
 		try:
 			print("Starting to render photo")
 			detector = ObjectDetection()
@@ -91,6 +115,15 @@ def start():
 			)
 		label = Label(root, text="Succeful!", fg="green")
 		label.pack()
+	elif vf == 2:
+		image = face_recognition.load_image_file(exec_path + "/" + ifp)
+		face_landmarks_list = face_recognition.face_landmarks(image)
+		pil_image = Image.fromarray(image)
+		d = ImageDraw.Draw(pil_image)
+		for face_landmarks in face_landmarks_list:
+			for facial_feature in face_landmarks.keys():
+				d.line(face_landmarks[facial_feature], width=5)
+		pil_image.show()
 
 root.title("Objecter")
 root.resizable("False", "False")
@@ -99,6 +132,7 @@ root.geometry("200x200")
 label1 = Label(root, text="Choose file type")
 choose = Button(root, text="Video", command=vftrue)
 choose1 = Button(root, text="Photo", command=vffalse)
+choose2 = Button(root, text="Face recognit", command=vfwtf)
 entry_file_path = Entry(root)
 entry_file_path.insert(END, "Input file name") 
 entry_file_path1 = Entry(root, text="Output file name")
@@ -108,7 +142,12 @@ recognit = Button(root, text="Start", command=start)
 label1.pack()
 choose.pack()
 choose1.pack()
+choose2.pack()
 entry_file_path.pack()
 entry_file_path1.pack()
 recognit.pack()
+
+entry_file_path.bind("<Button-1>", clear_search) 
+entry_file_path1.bind("<Button-1>", clear_search1) 
+
 root.mainloop()
